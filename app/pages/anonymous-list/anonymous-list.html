@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Apartments Go to anonymous-list</ion-title>
+  </ion-navbar>
+</ion-header>
+ 
+ 
+<ion-content padding class="anonymous-list">
+  <ion-list>
+    <ion-list-header>
+      Available Apartments
+    </ion-list-header>
+    <ion-item *ngFor="let apartment of apartments" (click)="goToDetail()">
+      <ion-thumbnail item-left>
+        <img src="http://placehold.it/100x100">
+      </ion-thumbnail>
+      <h2>Apartment {{apartment}}</h2>
+      <h3>Really Cool View</h3>
+      <p>This is our {{apartment}} apartment.</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
