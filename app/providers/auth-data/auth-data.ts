@@ -46,8 +46,9 @@ export class AuthData {
   signupUser(email: string, password: string): any {
     return this.fireAuth.createUserWithEmailAndPassword(email, password).then((newUser) => {
       this.fireAuth.signInWithEmailAndPassword(email, password).then((authenticatedUser) => {
-        this.userProfile.child(authenticatedUser.uid).set({
+        this.userProfile.child(authenticatedUser.email.replace('.','_')).set({
           email: email,
+          userUid: authenticatedUser.uid,
         });
         // todo add logg user login time
         this.logUserActivity('Register');
@@ -83,7 +84,7 @@ export class AuthData {
     if (this.getUser().isAnonymous == false) {
       console.log(this.getUser());
       let datetime = new Date().toLocaleString();
-      return this.userProfile.child(this.getUser() + '/activityLog').push({
+      return this.userProfile.child(this.getUserEmailNode() + '/activityLog').push({
         userActivity: activity,
         actionDate: datetime.toLocaleString(),
       });
@@ -97,6 +98,11 @@ export class AuthData {
     return this.fireAuth.currentUser;
   }
 
+  getUserEmailNode(){
+    return this.getUser().email.replace('.','_');
+  }
+
+
   createAnonymousUser(): any {
     return this.fireAuth.signInAnonymously().then((user) => {
       this.logUserActivity('LoginAnonymously');
@@ -106,9 +112,12 @@ export class AuthData {
   linkAccount(email, password): any {
     var credential = (<any>firebase.auth.EmailAuthProvider).credential(email, password);
     return this.fireAuth.currentUser.link(credential).then((user) => {
-      this.userProfile.child(user.uid).update({
-        email: email,
-      });
+      this.userProfile.child(this.getUserEmailNode());
+      // .update(this.logUserActivity('Register'));
+      // .update({
+      //   email: email,
+      // });
+      this.logUserActivity('Register');
     }, (error) => {
       console.log("Account linking error", error);
     });

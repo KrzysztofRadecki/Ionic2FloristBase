@@ -32,19 +32,29 @@ export class SignupPage {
         content: 'Waiting for server response..'
       });
 
-      if (this.authData.getUser().isAnonymous == true) {
+      if (this.authData.getUser() && this.authData.getUser().isAnonymous ) {
         // obsługa osób bez konta
         this.authData.linkAccount(this.signupForm.value.email, this.signupForm.value.password).then(() => {
-          this.navCtrl.setRoot(HomePage);
+          // this.navCtrl.setRoot(HomePage);
+          loading.present(this.navCtrl.setRoot(HomePage));
         }, (error) => {
-          console.log(error);
+          let errorMessage: string = error.message;
+          let alert = this.alertCtrl.create({
+            message: errorMessage,
+            buttons: [
+              {
+                text: "Ok",
+                role: 'cancel'
+              }
+            ]
+          });
         });
       }
       else {
         this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password).then(() => {
           loading.present(this.navCtrl.setRoot(HomePage));
         }, (error) => {
-          var errorMessage: string = error.message;
+          let errorMessage: string = error.message;
           let alert = this.alertCtrl.create({
             message: errorMessage,
             buttons: [
