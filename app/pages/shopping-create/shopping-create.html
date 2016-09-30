@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>New shopping item</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="event-create">
+  <ion-item>
+    <ion-label stacked>Product Name</ion-label>
+    <ion-input [(ngModel)]="productName" type="text" placeholder="Type product to buy"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Buy To Date</ion-label>
+    <ion-datetime [(ngModel)]="buyToDate" type="text"  displayFormat="YYYY-MM-DD" pickerFormat="DD MMM YYYY"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Description</ion-label>
+    <ion-input [(ngModel)]="description" type="text" placeholder="Type extra product description"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>amount</ion-label>
+    <ion-input [(ngModel)]="amount" type="number" placeholder="Type amount of product"></ion-input>
+  </ion-item>
+
+  <button block (click)="createEvent(productName, buyToDate, description, amount)">
+    Create shopping item
+  </button>
+</ion-content>

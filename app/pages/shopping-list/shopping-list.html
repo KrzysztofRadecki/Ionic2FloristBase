@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Shopping List</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="shopping-list">
+  <ion-list>
+    <ion-item *ngFor="let item of shoppingList" (click)="goToListDetail(item)">
+      <h2>{{item?.productName}}</h2>
+      <p>Description: <strong>{{item?.description}}</strong></p>
+      <p>Amount: <strong>{{item?.amount}}</strong></p>
+      <p>Is Bought: <strong>{{item?.isBought}}</strong></p>
+      <p>Buy to date: <strong>{{item?.buyToDate}}</strong></p>
+      <p>Create date: <strong>{{item?.addDate}}</strong></p>
+    </ion-item>
+  </ion-list>
+</ion-content>

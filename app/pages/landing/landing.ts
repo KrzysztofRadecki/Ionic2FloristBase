@@ -20,7 +20,8 @@ export class LandingPage {
 
   goToList(){
     this.authData.createAnonymousUser().then( () => {
-      this.navCtrl.setRoot(AnonymousListPage);
+      // this.navCtrl.setRoot(AnonymousListPage);
+      this.navCtrl.push(AnonymousListPage);
     });
   }
 

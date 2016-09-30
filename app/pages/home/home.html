@@ -2,19 +2,28 @@
   <ion-navbar>
     <ion-title>Home Page</ion-title>
     <ion-buttons end>
+      <!--<ion-label floating | stacked | fixed></ion-label>-->
+      <ion-label stacked>Welcome {{userName}}</ion-label>
       <button (click)="logOut()"><ion-icon name="log-out"></ion-icon></button>
+      <button (click)="goToProfile()"><ion-icon name="person"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="home">
+
+  <button block primary (click)="goToCreateShopping()">
+  Create a new shopping item
+</button>
+
+  <button block primary (click)="goToShoppingList()">
+  See your shopping list
+</button>
   <h2>Welcome to Ionic!</h2>
   <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
+    This starter project comes with simple tabs-based layout for apps that are going to primarily use a Tabbed UI.
   </p>
   <p>
-    Take a look at the <code>app/</code> directory to add or change tabs,
-    update any existing page or create new pages.
+    Take a look at the <code>app/</code> directory to add or change tabs, update any existing page or create new pages.
   </p>
 </ion-content>

@@ -43,16 +43,28 @@ export class AuthData {
      * @param  {string} email    [User's email address]
      * @param  {string} password [User's password]
      */
-  signupUser(email: string, password: string): any {
+  // signupUser(email: string, password: string): any {
+  //   return this.fireAuth.createUserWithEmailAndPassword(email, password).then((newUser) => {
+  //     this.fireAuth.signInWithEmailAndPassword(email, password).then((authenticatedUser) => {
+  //       this.userProfile.child(authenticatedUser.email.replace('.','_')).set({
+  //         email: email,
+  //         userUid: authenticatedUser.uid,
+  //       });
+  //       // todo add logg user login time
+  //       this.logUserActivity('Register');
+
+  //     });
+  //   });
+  // }
+
+    signupUser(email: string, password: string): any {
     return this.fireAuth.createUserWithEmailAndPassword(email, password).then((newUser) => {
       this.fireAuth.signInWithEmailAndPassword(email, password).then((authenticatedUser) => {
-        this.userProfile.child(authenticatedUser.email.replace('.','_')).set({
-          email: email,
-          userUid: authenticatedUser.uid,
+        this.userProfile.child(authenticatedUser.uid).set({
+          email: email
         });
-        // todo add logg user login time
+                // todo add logg user login time
         this.logUserActivity('Register');
-
       });
     });
   }
@@ -65,7 +77,7 @@ export class AuthData {
      * @param  {string} email    [User's email address]
      */
   resetPassword(email: string): any {
-    return this.fireAuth.sendPasswordResetEmail(email);
+    return this.fireAuth.sendPasswordResetEmail(email).then(()=> this.logUserActivity('Reset Password'));
   }
 
   logoutUser(): any {
@@ -84,7 +96,7 @@ export class AuthData {
     if (this.getUser().isAnonymous == false) {
       console.log(this.getUser());
       let datetime = new Date().toLocaleString();
-      return this.userProfile.child(this.getUserEmailNode() + '/activityLog').push({
+      return this.userProfile.child(this.getUser().uid + '/activityLog/' + this.getUserEmailNode() ).push({
         userActivity: activity,
         actionDate: datetime.toLocaleString(),
       });
@@ -112,7 +124,7 @@ export class AuthData {
   linkAccount(email, password): any {
     var credential = (<any>firebase.auth.EmailAuthProvider).credential(email, password);
     return this.fireAuth.currentUser.link(credential).then((user) => {
-      this.userProfile.child(this.getUserEmailNode());
+      this.userProfile.child(this.getUser().uid + '/activityLog/' + this.getUserEmailNode() );
       // .update(this.logUserActivity('Register'));
       // .update({
       //   email: email,
